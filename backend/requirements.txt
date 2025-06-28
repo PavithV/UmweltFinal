@@ -1,0 +1,8 @@
+pandas
+requests
+psycopg2-binary
+schedule
+scikit-learn
+plotly
+Dash==2.*
+dash

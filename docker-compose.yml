@@ -1,0 +1,72 @@
+#version: "3.9"
+services:
+  db:
+    image: timescale/timescaledb:latest-pg14
+    container_name: sensebox_db
+    environment:
+      POSTGRES_DB: sensebox
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "5432:5432"
+
+  collector:
+    build: ./backend
+    container_name: data_collector
+    depends_on:
+      - db
+    command: python data_collector.py
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: sensebox
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      SENSEBOX_ID: 6252afcfd7e732001bb6b9f7   # Setze hier deine ID
+      POLL_SECONDS: 30
+    restart: unless-stopped
+
+  ml_trainer:
+    build: ./backend
+    container_name: ml_trainer
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: sensebox
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      ML_SENSOR_ID: "6252afcfd7e732001bb6b9fb"   # unbedingt setzen! z.B. Sensor-ID
+      MODEL_PATH: "/app/model/anomaly_iforest.joblib"
+      TRAIN_LIMIT: 10000
+    volumes:
+      - model_volume:/app/model
+    # Für eine einfache Demo: Modell einmal beim Start trainieren.
+    # Wenn du alle 24h neu trainieren willst, könntest du hier schedule in anomaly_detector.py verwenden.
+    command: ["python", "-m", "ml.anomaly_detector"]
+
+
+  dash:
+    build: ./dashboard
+    container_name: sensebox_dash
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: sensebox
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      ML_SENSOR_ID: "6252afcfd7e732001bb6b9fb"   # dieselbe ID wie beim ML-Container
+    volumes:
+      - model_volume:/app/model     # Damit das Dashboard das trainierte Modell findet
+      - ./backend:/app/backend      # Damit Dashboard den anomaly_detector-Code und database.py importieren kann
+    ports:
+      - "8050:8050"
+
+volumes:
+  model_volume:
