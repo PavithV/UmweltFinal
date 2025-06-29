@@ -1,5 +1,7 @@
 # 🌍 Umweltmonitoring mit SenseBox und KI 🤖📈
 
+WICHTIG: `.foo` Dateien aus `pg_snapshots` und `pg_tblspc` löschen (sonst funktioniert das Projekt nicht!)
+
 Ein containerisiertes Dashboard-System zur Überwachung von Umweltdaten wie Temperatur, Luftfeuchtigkeit und Luftdruck über eine SenseBox.  
 Inklusive:
 
@@ -30,7 +32,7 @@ Inklusive:
 ## 🚀 Projekt starten
 
 Im Projektverzeichnis:
-
+WICHTIG: `.foo` Dateien aus `pg_snapshots` und `pg_tblspc` löschen (sonst funktioniert das Projekt nicht!)
 - `Docker Desktop` als Adminstrator starten
 ```bash
 docker-compose up --build
