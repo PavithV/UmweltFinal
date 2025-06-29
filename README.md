@@ -5,6 +5,12 @@ Inklusive:
 
 - 🚨 **Anomalie-Erkennung** für Temperaturdaten (IsolationForest)
 - 🔮 **24-Stunden-Vorhersage** der Temperatur (Lineare Regression)
+---
+## Tools
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![Plotly Dash](https://img.shields.io/badge/Plotly%20Dash-3F4F75?logo=plotly&logoColor=white)
+![TimescaleDB](https://img.shields.io/badge/TimescaleDB-ffaa00?logo=postgresql&logoColor=white)
 
 ---
 
