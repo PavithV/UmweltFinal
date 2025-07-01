@@ -1,6 +1,6 @@
 # 🌍 Umweltmonitoring mit SenseBox und KI 🤖📈
 
-WICHTIG: `.foo` Dateien aus `pg_snapshots` und `pg_tblspc` löschen (sonst funktioniert das Projekt nicht!)
+WICHTIG: `.foo` Dateien aus `pg_logical/snapshots` und `pg_tblspc` löschen (sonst funktioniert das Projekt nicht!)
 
 Ein containerisiertes Dashboard-System zur Überwachung von Umweltdaten wie Temperatur, Luftfeuchtigkeit und Luftdruck über eine SenseBox.  
 Inklusive:
